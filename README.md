@@ -6,6 +6,8 @@
 ![Stars](https://img.shields.io/github/stars/FisherXZ/write-prd?style=social)
 ![Maintained](https://img.shields.io/badge/maintained-yes-brightgreen)
 
+![demo](assets/demo.gif)
+
 ---
 
 ## What it does
