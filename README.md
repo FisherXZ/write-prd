@@ -1,56 +1,63 @@
-# write-prd — Claude Code Skill
+# write-prd
 
-A Claude Code skill for writing world-class PRDs + technical specs. Designed for startup engineers and PMs who need to propose features to technical leadership (CTO, CEO) before building.
+> A Claude Code skill for writing world-class PRDs + technical specs — built for startup engineers and PMs who need to propose features to CTO/CEO before building.
+
+![License](https://img.shields.io/github/license/FisherXZ/write-prd)
+![Stars](https://img.shields.io/github/stars/FisherXZ/write-prd?style=social)
+![Maintained](https://img.shields.io/badge/maintained-yes-brightgreen)
+
+---
 
 ## What it does
 
-When you invoke `/write-prd`, Claude:
+Invoke `/write-prd` and Claude will:
 
-1. **Interviews you** — asks about the feature, existing system, primary user, strategic context, scope constraints, and what's already decided
-2. **Researches first** — competitive landscape, technical patterns used by similar features, common gotchas
-3. **Writes a full document** — following a battle-tested template derived from how top teams at Google, Amazon, Figma, and OpenAI write specs
+1. **Interview you** — feature idea, existing system, primary user, strategic context, scope, what's already decided
+2. **Research** — competitive landscape, technical patterns at similar companies, common gotchas
+3. **Write a full document** — following a template derived from how teams at Google, Amazon, Figma, and OpenAI write specs
 
 The output is a markdown doc you can drop in front of your CTO and defend at the detail level.
 
-## Template structure
+---
 
-| Section | Purpose |
-|---------|---------|
-| **TL;DR** | 2–4 sentence summary for a busy exec |
-| **User Narrative** | Named user walking through the feature end-to-end |
-| **Why This Feature** | Competitive context, product thesis, leverage on existing investment |
-| **Non-Goals** | Explicit constraints — prevents scope creep |
-| **Scope** | Entry points, objects touched, data flow pseudocode |
-| **Core Workflow** | Step-by-step with edge cases for every step |
-| **Technical Architecture** | Component table, data model, design decisions (Problem → Decision → Why) |
-| **Definition of Done** | Numbered checklist, not vibes |
-| **Open Questions** | Review hooks with your recommendation and the tradeoff |
+## Install
 
-## Principles baked in
+**One-liner (Claude Code):**
 
-- **Problem before solution** — 40–60% of the doc is about why, for whom, and why now
-- **Proof of work** — every claim backed by competitive research, user narrative, or data
-- **Defensible decisions** — every non-obvious technical choice states Problem → Decision → Why explicitly
-- **Non-goals are mandatory** — the section most commonly skipped, most reliably preventing scope creep
-- **Edge cases in every workflow step** — never happy path only
+```bash
+curl -fsSL https://raw.githubusercontent.com/FisherXZ/write-prd/main/install.sh | bash
+```
 
-## Installation
-
-### Option 1 — Copy the skill file
+**Manual:**
 
 ```bash
 mkdir -p ~/.claude/skills/write-prd
-cp SKILL.md ~/.claude/skills/write-prd/
+curl -fsSL https://raw.githubusercontent.com/FisherXZ/write-prd/main/SKILL.md \
+  -o ~/.claude/skills/write-prd/SKILL.md
 ```
 
-### Option 2 — Install the packaged `.skill` file
-
-If your Claude Code version supports `.skill` files:
+**Multi-agent (add to your project repo):**
 
 ```bash
-# Copy write-prd.skill to your Claude skills directory
-cp write-prd.skill ~/.claude/skills/
+curl -fsSL https://raw.githubusercontent.com/FisherXZ/write-prd/main/install.sh | bash --all
 ```
+
+---
+
+## Platform support
+
+| Agent | Install path |
+|-------|-------------|
+| Claude Code | `~/.claude/skills/write-prd/` |
+| Cursor | `.cursor/skills/write-prd/` |
+| Gemini CLI | `.gemini/skills/write-prd/` |
+| OpenCode | `.opencode/skills/write-prd/` |
+| Codex | `.codex/skills/write-prd/` |
+| Kiro | `.kiro/skills/write-prd/` |
+
+Pre-built directories for each platform are included in this repo — clone and go.
+
+---
 
 ## Usage
 
@@ -58,13 +65,93 @@ cp write-prd.skill ~/.claude/skills/
 /write-prd
 ```
 
-Or just describe what you want to build — the skill auto-triggers when you ask to spec out, write up, or formalize a feature for review.
+Or just describe what you want to build. The skill auto-triggers when you ask to spec out, write up, or formalize a feature before building it — even if you don't say "PRD."
+
+---
+
+## Document structure
+
+Every output follows this template:
+
+| Section | What it contains |
+|---------|-----------------|
+| **TL;DR** | 2–4 sentences for a busy exec |
+| **User Narrative** | Named user walking the feature end-to-end |
+| **Why This Feature** | Competitive context, product thesis, leverage on existing investment |
+| **Non-Goals** | Explicit scope constraints |
+| **Scope** | Entry points, schema changes, data flow pseudocode |
+| **Core Workflow** | Step-by-step with edge cases at every step |
+| **Technical Architecture** | Component table, data model, design decisions (Problem → Decision → Why) |
+| **Definition of Done** | Numbered checklist |
+| **Open Questions** | Review hooks with your recommendation + tradeoff |
+
+---
+
+## Example output
+
+Below is an excerpt from a real PRD generated by this skill ([full doc](examples/linkedin-inbox-sync.md)):
+
+```markdown
+# LinkedIn Message Inbox Sync — Feature Spec
+
+## 1. TL;DR
+
+Ingest a user's LinkedIn message history into The Hog so SDRs can read, search, 
+and reply to LinkedIn DMs without leaving the app. Replies sent from The Hog are 
+posted back to LinkedIn via OAuth + Messaging API and automatically logged as lead 
+activity. V1 targets read + reply parity; sending net-new cold outreach from The 
+Hog is V2.
+
+## 2. User Narrative
+
+Marcus is an SDR at a growth-stage B2B SaaS company. He runs outbound on LinkedIn 
+every day — 20–30 new connection requests, follow-up messages to warm prospects, 
+replies to inbound DMs from people who saw his content. Every afternoon he switches 
+between The Hog (where his leads live) and LinkedIn (where the conversation history 
+lives). He's constantly copy-pasting context.
+
+Today Marcus opens The Hog. Under each lead in his pipeline he sees a new **Messages** 
+tab. It shows the full LinkedIn DM thread with that person...
+
+## 3. Why This Feature
+
+### 3.1 Competitive context
+Every mature sales engagement platform ships native LinkedIn inbox integration: 
+Salesloft and Outreach both surface LinkedIn DMs in the activity timeline. Apollo.io 
+shows LinkedIn conversation history inline on contact records...
+
+## 7.3 Critical design decisions
+
+**Per-user OAuth, not per-org**
+- **Problem:** LinkedIn's API terms prohibit shared credentials.
+- **Decision:** Each user connects their own LinkedIn account.
+- **Why:** Only viable option under LinkedIn's API terms. Aligns with industry 
+  practice (Salesloft, Outreach both use per-rep OAuth).
+```
+
+---
+
+## Principles baked in
+
+- **Problem before solution** — 40–60% of the doc is *why*, for whom, and why now
+- **Proof of work** — competitive research, user narrative, data baselines
+- **Defensible decisions** — every non-obvious choice: Problem → Decision → Why
+- **Non-goals are mandatory** — the section most commonly skipped; most reliably prevents scope creep
+- **Edge cases in every step** — never happy path only
+
+---
 
 ## Who this is for
 
-- Engineers at startups writing specs for CTO/CEO review
-- PMs who need to propose features and defend architecture choices
-- Anyone turning a rough idea into a doc they can hand off to engineers
+- Engineers at startups writing specs for CTO/CEO review before sprinting
+- PMs turning rough ideas into plans they can hand off to engineers
+- Anyone who needs to defend a technical choice to a non-technical stakeholder
+
+---
+
+## Contributing
+
+PRs welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
