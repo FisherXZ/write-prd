@@ -1,0 +1,12 @@
+{
+  "name": "write-prd",
+  "description": "Write world-class PRDs + technical specs for startup features. Interviews you, researches competitive context, and produces a structured markdown doc you can defend to your CTO/CEO.",
+  "version": "1.0.0",
+  "author": {
+    "name": "FisherXZ",
+    "url": "https://github.com/FisherXZ"
+  },
+  "homepage": "https://github.com/FisherXZ/write-prd",
+  "repository": "https://github.com/FisherXZ/write-prd",
+  "license": "MIT"
+}

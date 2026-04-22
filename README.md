@@ -24,7 +24,13 @@ The output is a markdown doc you can drop in front of your CTO and defend at the
 
 ## Install
 
-**One-liner (Claude Code):**
+**Plugin install (recommended):**
+
+```bash
+/plugin install FisherXZ/write-prd
+```
+
+**One-liner shell:**
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/FisherXZ/write-prd/main/install.sh | bash
